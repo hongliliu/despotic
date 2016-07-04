@@ -738,15 +738,16 @@ class emitter(object):
               never change.
 
         Remarks
-           Convergence occurs when either the relative or the absolute
-           tolerance condition is satisfied. To disable either relative
-           or absolute tolerance checking, just set the appropriate
-           tolerance <= 0. However, be warned that in many circumstances
-           disabling absolute tolerances will gaurantee non-convergence,
-           because truncation errors tend to produce large relative
-           residuals for high energy states whose populations are very
-           low, and no amount of iterating will reduce these errors
-           substantially.
+        -------
+        Convergence occurs when either the relative or the absolute
+        tolerance condition is satisfied. To disable either relative
+        or absolute tolerance checking, just set the appropriate
+        tolerance <= 0. However, be warned that in many circumstances
+        disabling absolute tolerances will guarantee non-convergence,
+        because truncation errors tend to produce large relative
+        residuals for high energy states whose populations are very
+        low, and no amount of iterating will reduce these errors
+        substantially.
         """
 
         # Sanitize inputs
