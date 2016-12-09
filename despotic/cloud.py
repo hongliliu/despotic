@@ -33,6 +33,7 @@ from .dustProp import dustProp
 from .chemistry import abundanceDict, chemEvol, setChemEq
 from .despoticError import despoticError
 from copy import deepcopy
+import warnings
 
 # Define some global physical constants in cgs units
 import scipy.constants as physcons
@@ -851,13 +852,13 @@ class cloud(object):
                             # retries before giving up
                             dFac = dFac / 2.0
                             attempts = attempts + 1
-                            if attempts > 5:
+                            if attempts > 15:
                                 raise despoticError("convergence " +
                                     "failed for "+em.name)
                             else:
-                                print("Warning: convergence failed " + 
-                                    "for "+em.name+", RETRYING " + 
-                                    "with damping factor = " + str(dFac))
+                                warnings.warn("Warning: convergence failed " +
+                                              "for "+em.name+", RETRYING " +
+                                              "with damping factor = " + str(dFac))
                 else:
                     # Safety check
                     if em.levPopInitialized == False:

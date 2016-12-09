@@ -45,3 +45,4 @@ emitter    = oH2O 1.0e-8 extrapolate url:oh2o@daniel.dat
 emitter    = pH2O 1.0e-8 extrapolate url:ph2o@daniel.dat
 # CS: custom file name  abundance 1.0e-8
 emitter    = cs   1.0e-8 extrapolate url:cs@lique.dat
+emitter    = 13cs   1.0e-10 extrapolate url:cs@lique.dat
