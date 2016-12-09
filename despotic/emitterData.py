@@ -41,6 +41,7 @@ c = physcons.c*1e2
 mH = (physcons.m_p+physcons.m_e)*1e3
 h = physcons.h*1e7
 hc = h*c
+G = physcons.G*1e3
 
 # List of known collision partners, and their corresponding notations
 # in the Leiden database
@@ -590,6 +591,71 @@ class emitterData(object):
         # Return matrix
         return q
 
+    ####################################################################
+    # Method to derive the tX parameter defined by Krumholz+ (2016)
+    ####################################################################
+    def tX(self, mX, trans=None):
+        """
+        Returns the tX line strength parameter of Krumholz+ (2016)
+
+        Parameters
+           mX : float
+              total mass per particle of this species, in g
+           trans : int, array, or None
+              if set, tX is returned only for the specified
+              transitions in the transition list; default is that it
+              is returned for all transitions
+
+        Returns
+           tX : float or array
+              transition strength parameter for the specified
+              transitions, in seconds
+        """
+        if trans is None:
+            gi = self.levWgt[self.radUpper]
+            gj = self.levWgt[self.radLower]
+            lam = c/self.radFreq
+            A = self.radA
+        else:
+            gi = self.levWgt[self.radUpper][trans]
+            gj = self.levWgt[self.radLower][trans]
+            lam = c/self.radFreq[trans]
+            A = self.radA[trans]
+        tX = (gi/gj) * A*lam**3 / (32*np.pi**2*G*mX)
+        return tX
+
+    ####################################################################
+    # Method to derive the Xthin parameter defined by Krumholz+ (2016)
+    ####################################################################
+    def Xthin(self, abd, trans=None):
+        """
+        Returns the Xthin parameter of Krumholz+ (2016)
+
+        Parameters
+           abd : float
+              abundance of the species, relative to H
+           trans : int, array, or None
+              if set, Xthin is returned only for the specified
+              transitions in the transition list; default is that it
+              is returned for all transitions
+
+        Returns
+           Xthin : float or array
+              Xthin parameter for the specified transitions, in cm^-2
+              / (K km s^-1)
+        """
+        if trans is None:
+            lam = c/self.radFreq
+            A = self.radA
+            T = h*self.radFreq/kB
+        else:
+            lam = c/self.radFreq[trans]
+            A = self.radA[trans]
+            T = h*self.radFreq[trans]/kB
+        Xthin = 8.0*np.pi/(A*T*lam**3*abd)*1e5   # 1e5 is to convert to km/s
+        return Xthin
+
+    
 
 ########################################################################
 # End of class emitterData
